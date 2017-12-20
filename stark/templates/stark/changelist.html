@@ -1,0 +1,96 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static "stark/bootstrap/css/bootstrap.css" %}" />
+    <style>
+        .list_filter a{
+            display: inline-block;
+            padding:3px 8px;
+            border: 1px solid #2e6da4;
+            margin: 3px 0;
+        }
+        .list_filter a.active{
+            background-color: #2e6da4;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>列表页面</h1>
+    <hr>
+<div>
+ {% for Filter_row in c1.gen_comb_filter %}
+    <div class="list_filter">
+       {% for item in Filter_row %}
+           {{ item }}
+       {% endfor %}
+    </div>
+ {% endfor %}
+
+</div>
+
+{% if c1.show_search_form %}
+<span class="form-group">
+        <form method="get">
+         <input name="{{ c1.config.search_key }}" value="{{ c1.search_form_val }}" class="form-control" placeholder="请输入搜索框" type="text" style="display:inline-block;width: 200px">
+         <button class="btn btn-primary"><span class="glyphicon glyphicon-search"></span></button>
+
+        </form>
+    </span>
+{% endif %}
+
+
+{% if c1.show_add_btn %}
+   <a  class="btn btn-primary" href="{{ c1.add_url }}">添加</a>
+{% endif %}
+
+
+ <form method="post">
+ {% csrf_token %}
+ {% if c1.show_actions %}
+<div class="form_group" >
+    <select name="list_action" class="form-control"style="display:inline-block;width: 200px">
+        {% for item in c1.modify_actions %}
+           <option value="{{ item.name }}">{{ item.text }}</option>
+        {% endfor %}
+    </select>
+    <button class="btn btn-primary">执行</button>
+</div>
+ {% endif %}
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                {% for item in c1.head_list %}
+                    <th>{{ item }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for obj_list in c1.body_list %}
+                <tr>
+                    {% for col in obj_list %}
+                        <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+ </form>
+<div>
+    <ul class="pagination">
+         {{ c1.pager_obj.page_html|safe }}
+     </ul>
+</div>
+    </div>
+
+</body>
+</html>

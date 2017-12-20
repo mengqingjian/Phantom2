@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .pager a{
+            display: inline-block;
+            padding: 2px 8px;
+            margin: 0 5px;
+            border:1px solid cadetblue;
+        }
+        .pager a active{
+            background-color: #1b6d85;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<ul>
+     {% for i in host_list %}
+    <li>{{ i }}</li>
+    {% endfor %}
+</ul>
+<div class="pager">
+    {{ page_html|safe }}
+</div>
+
+</body>
+</html>
